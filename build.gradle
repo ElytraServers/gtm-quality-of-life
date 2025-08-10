@@ -26,6 +26,16 @@ repositories {
         // LowDragLib
         url "https://maven.firstdarkdev.xyz/snapshots"
     }
+    maven {
+        url "https://api.modrinth.com/maven"
+        mavenContent {
+            includeGroup("maven.modrinth")
+        }
+    }
+    maven {
+        // EMI
+        url "https://maven.terraformersmc.com/releases/"
+    }
 }
 
 base {
@@ -152,6 +162,9 @@ dependencies {
 
     modImplementation "com.gregtechceu.gtceu:gtceu-${minecraft_version}:7.0.2"
     modImplementation "com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:1.0.40.b"
+
+    modImplementation "maven.modrinth:jade:11.6.3"
+    modImplementation "dev.emi:emi-forge:1.1.13+1.20.1"
 }
 
 // Uncomment the lines below if you wish to configure mixin. The mixin file should be named modid.mixins.json.
