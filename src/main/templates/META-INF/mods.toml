@@ -39,8 +39,9 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.gtmqol]]
-modId = "gregtech"
+modId = "gtceu"
 mandatory = true
+versionRange = "*"
 ordering = "AFTER"
 side = "BOTH"
 
