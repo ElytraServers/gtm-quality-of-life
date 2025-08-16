@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Range;
@@ -74,7 +75,7 @@ public class FluidHandlerItemDecorator implements IItemDecorator {
         // it will iterate tanks in the item, util either the tanks are all iterated or reached the limit of rendering
         // count, which is 1 by default.
         for (int index = 0, count = 0; index < handler.getTanks() && count < maxTankCountToRender; index++) {
-            FluidStack fluidInTank = handler.getFluidInTank(index);
+            FluidStack fluidInTank = getFluidInTankCatching(handler, index);
             if (!fluidInTank.isEmpty()) {
                 DrawerHelper.drawFluidForGui(
                     guiGraphics,
@@ -88,6 +89,15 @@ public class FluidHandlerItemDecorator implements IItemDecorator {
         }
 
         return true;
+    }
+
+    private static FluidStack getFluidInTankCatching(IFluidHandler handler, int index) {
+        try {
+            return handler.getFluidInTank(index);
+        } catch (Exception e) {
+            // ignored, we don't truly care if it's malformed data. A bug of GTM.
+            return FluidStack.EMPTY;
+        }
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
