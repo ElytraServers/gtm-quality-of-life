@@ -21,6 +21,7 @@ group = mod_group_id
 
 try {
     version = gitVersion()
+    mod_version = version
 } catch(Exception e) {
     logger.info("Failed to read version from git, '${mod_version}' is used.", e)
 }
