@@ -11,3 +11,9 @@ If you're seeking some unique features to help improve this mod, feel free to op
 ![](docs/tank_inspector.png)
 
 It renders the including content of a fluid tank (Drums, Super Tanks and Quantum Tanks).
+
+### Data Stick (Alike) Inspector
+
+![](docs/data_stick_inspector.png)
+
+It renders the output item of including recipe data for Data Sticks, Data Orbs and Data Modules.

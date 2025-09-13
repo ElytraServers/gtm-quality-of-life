@@ -1,5 +1,6 @@
 package cn.elytra.mod.gtmqol.config;
 
+import cn.elytra.mod.gtmqol.client.item_decorator.DataStickItemDecorator;
 import cn.elytra.mod.gtmqol.client.item_decorator.FluidHandlerItemDecorator;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,6 +29,10 @@ public class QualityConfig {
         "drum_item_decorator.render_on_top_item",
         true);
 
+    private static final ForgeConfigSpec.BooleanValue USE_DATA_STICK_LIKE_ITEM_DECORATOR = BUILDER.define(
+        "data_stick_decorator.enabled",
+        true);
+
     public static ForgeConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
@@ -37,6 +42,8 @@ public class QualityConfig {
         FluidHandlerItemDecorator.INSTANCE.enabled = USE_DRUM_ITEM_DECORATOR.get();
         FluidHandlerItemDecorator.INSTANCE.maxTankCountToRender = DRUM_ITEM_DECORATOR_MAX_TYPE.get();
         FluidHandlerItemDecorator.INSTANCE.renderOnTopOfItem = DRUM_ITEM_DECORATOR_RENDER_ON_TOP_ITEM.get();
+
+        DataStickItemDecorator.INSTANCE.enabled = USE_DATA_STICK_LIKE_ITEM_DECORATOR.get();
     }
 
 }
