@@ -2,7 +2,7 @@ modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
 issueTrackerURL="https://github.com/ElytraServers/gtm-quality-of-life/issues"
-#clientSideOnly=true
+clientSideOnly=true
 
 [[mods]]
 modId = "gtmqol"

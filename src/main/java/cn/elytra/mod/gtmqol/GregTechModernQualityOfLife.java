@@ -1,6 +1,9 @@
 package cn.elytra.mod.gtmqol;
 
+import cn.elytra.mod.gtmqol.config.QualityConfig;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,8 @@ public class GregTechModernQualityOfLife {
 
     public GregTechModernQualityOfLife() {
         LOG.info("Quality!");
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, QualityConfig.SPEC);
     }
 
 }

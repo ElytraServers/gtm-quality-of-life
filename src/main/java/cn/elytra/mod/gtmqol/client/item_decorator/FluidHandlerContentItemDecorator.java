@@ -23,12 +23,12 @@ import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Range;
 import org.slf4j.Marker;
 
-public class FluidHandlerItemDecorator implements IItemDecorator {
+public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
     /**
      * A default instance for rendering GTM tanks.
      */
-    public static final FluidHandlerItemDecorator INSTANCE = new FluidHandlerItemDecorator();
+    public static final FluidHandlerContentItemDecorator INSTANCE = new FluidHandlerContentItemDecorator();
 
     private static final float FLUID_ICON_WIDTH = 8;
     private static final float FLUID_ICON_HEIGHT = 8;
@@ -101,9 +101,9 @@ public class FluidHandlerItemDecorator implements IItemDecorator {
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    static class Register {
+    static class ContentCornerRegister {
 
-        private static final Marker M = QualityUtils.getMarkerForClass(FluidHandlerItemDecorator.Register.class);
+        private static final Marker M = QualityUtils.getMarkerForClass(ContentCornerRegister.class);
 
         @SubscribeEvent
         public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
@@ -116,7 +116,7 @@ public class FluidHandlerItemDecorator implements IItemDecorator {
         private static void register(RegisterItemDecorationsEvent event, Iterable<MachineDefinition> list) {
             for (MachineDefinition drumDefinition : list) {
                 MetaMachineItem item = drumDefinition.getItem();
-                event.register(item, FluidHandlerItemDecorator.INSTANCE);
+                event.register(item, FluidHandlerContentItemDecorator.INSTANCE);
                 QualityUtils.LOG.info(M, "Registered FluidHandlerItemDecorator {}", item);
             }
         }

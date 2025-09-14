@@ -51,6 +51,10 @@ repositories {
         // EMI
         url "https://maven.terraformersmc.com/releases/"
     }
+    maven {
+        // Conditional Mixin
+        url "https://maven.fallenbreath.me/releases"
+    }
     mavenLocal()
 }
 
@@ -121,6 +125,8 @@ legacyForge {
             // "REGISTRYDUMP": For getting the contents of all registries.
             systemProperty 'forge.logging.markers', 'REGISTRIES'
 
+            systemProperty 'mixin.debug.export', 'true'
+
             // Recommended logging level for the console
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
@@ -186,13 +192,18 @@ dependencies {
 
     compileOnly("org.jetbrains:annotations:26.0.2")
 
-    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:7.0.2") {
+    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:7.1.4") {
         // because we have a un-remapped-sources version below! :D
         exclude module: "com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}"
     }
     // modImplementation("com.github.Low-Drag-MC:LDLib-MultiLoader:f74ba7a62b")
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.43")
     modImplementation("com.tterrag.registrate:Registrate:MC1.20-1.3.11")
+
+    modImplementation(jarJar("me.fallenbreath:conditional-mixin-forge:0.6.4"))
+
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.5.0"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.5.0"))
 
     modImplementation "maven.modrinth:jade:11.6.3"
     modImplementation "dev.emi:emi-forge:1.1.13+1.20.1"
