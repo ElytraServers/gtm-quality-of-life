@@ -55,6 +55,13 @@ repositories {
         // Conditional Mixin
         url "https://maven.fallenbreath.me/releases"
     }
+    maven {
+        // Configuration
+        url "https://api.repsy.io/mvn/toma/public/"
+        mavenContent {
+            includeGroup("dev.toma.configuration")
+        }
+    }
     mavenLocal()
 }
 
@@ -199,6 +206,7 @@ dependencies {
     // modImplementation("com.github.Low-Drag-MC:LDLib-MultiLoader:f74ba7a62b")
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.43")
     modImplementation("com.tterrag.registrate:Registrate:MC1.20-1.3.11")
+    modImplementation("dev.toma.configuration:configuration-${project.minecraft_version}:3.1.0-forge")
 
     modImplementation(jarJar("me.fallenbreath:conditional-mixin-forge:0.6.4"))
 
@@ -275,5 +283,8 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+
+        excludeDirs += file("run/logs")
+        excludeDirs += file("run/crash-reports")
     }
 }

@@ -1,67 +1,52 @@
 package cn.elytra.mod.gtmqol.config;
 
-import cn.elytra.mod.gtmqol.client.item_decorator.DataStickItemDecorator;
-import cn.elytra.mod.gtmqol.client.item_decorator.FluidHandlerContentItemDecorator;
+import cn.elytra.mod.gtmqol.GregTechModernQualityOfLife;
 import cn.elytra.mod.gtmqol.client.item_decorator.FluidHandlerUsageBarItemDecorator;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import dev.toma.configuration.config.Config;
+import dev.toma.configuration.config.Configurable;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Config(id = GregTechModernQualityOfLife.MOD_ID)
 public class QualityConfig {
 
-    private static final Logger LOG = LoggerFactory.getLogger(QualityConfig.class);
+    public static class ItemDecorator {
 
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+        public static class TankContent {
 
-    private static final BooleanValue USE_DRUM_ITEM_DECORATOR = BUILDER.define(
-        "drum_item_decorator.enabled",
-        true);
+            @Configurable
+            public boolean renderContentAtCorner = false;
+            @Configurable
+            @Configurable.Range(min = 1, max = 4)
+            @Configurable.Gui.Slider
+            public int renderContentAtCornerMaxType = 1;
+            @Configurable
+            public boolean renderContentAtCornerOnTopOfItem = true;
+            @Configurable
+            public boolean renderContentDurabilityBar = true;
+            @Configurable
+            public boolean renderContentDurabilityBarAtEmpty = false;
+            @Configurable
+            public boolean renderContentDurabilityBarAtFull = true;
+            @Configurable
+            public FluidHandlerUsageBarItemDecorator.MultiTankStrategy renderContentDurabilityBarMultiTankStrategy = FluidHandlerUsageBarItemDecorator.MultiTankStrategy.COUNT_TOTAL;
+        }
 
-    private static final ForgeConfigSpec.IntValue DRUM_ITEM_DECORATOR_MAX_TYPE = BUILDER.defineInRange("drum_item_decorator.max_type",
-        1,
-        0,
-        4);
+        public static class RecipeDataContent {
 
-    private static final BooleanValue DRUM_ITEM_DECORATOR_RENDER_ON_TOP_ITEM = BUILDER.define(
-        "drum_item_decorator.render_on_top_item",
-        true);
+            @Configurable
+            public boolean renderRecipeDataAtCorner = true;
+        }
 
-    private static final BooleanValue USE_DATA_STICK_LIKE_ITEM_DECORATOR = BUILDER.define(
-        "data_stick_decorator.enabled",
-        true);
+        @Configurable
+        public TankContent tankContent = new TankContent();
+        @Configurable
+        public RecipeDataContent recipeDataContent = new RecipeDataContent();
+    }
 
-    private static final BooleanValue USE_TANK_USAGE_DURA_BAR = BUILDER.define(
-        "tank_usage_dura_bar.enabled",
-        true);
+    @Configurable
+    public ItemDecorator itemDecorator = new ItemDecorator();
 
-    private static final BooleanValue TANK_USAGE_DURA_BAR_SHOW_ON_EMPTY = BUILDER.define(
-        "tank_usage_dura_bar.show_on_empty",
-        false);
-
-    private static final BooleanValue TANK_USAGE_DURA_BAR_SHOW_ON_FULL = BUILDER.define(
-        "tank_usage_dura_bar.show_on_full",
-        false);
-
-    public static ForgeConfigSpec SPEC = BUILDER.build();
-
-    @SubscribeEvent
-    static void onLoad(ModConfigEvent event) {
-        LOG.info("Loading Configurations");
-
-        FluidHandlerContentItemDecorator.INSTANCE.enabled = USE_DRUM_ITEM_DECORATOR.get();
-        FluidHandlerContentItemDecorator.INSTANCE.maxTankCountToRender = DRUM_ITEM_DECORATOR_MAX_TYPE.get();
-        FluidHandlerContentItemDecorator.INSTANCE.renderOnTopOfItem = DRUM_ITEM_DECORATOR_RENDER_ON_TOP_ITEM.get();
-
-        DataStickItemDecorator.INSTANCE.enabled = USE_DATA_STICK_LIKE_ITEM_DECORATOR.get();
-
-        FluidHandlerUsageBarItemDecorator.INSTANCE.enabled = USE_TANK_USAGE_DURA_BAR.get();
-        FluidHandlerUsageBarItemDecorator.INSTANCE.showEmptyBar = TANK_USAGE_DURA_BAR_SHOW_ON_EMPTY.get();
-        FluidHandlerUsageBarItemDecorator.INSTANCE.showFullBar = TANK_USAGE_DURA_BAR_SHOW_ON_FULL.get();
+    public static QualityConfig get() {
+        return GregTechModernQualityOfLife.config;
     }
 
 }

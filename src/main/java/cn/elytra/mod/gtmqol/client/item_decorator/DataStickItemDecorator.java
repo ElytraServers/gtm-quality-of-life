@@ -1,5 +1,6 @@
 package cn.elytra.mod.gtmqol.client.item_decorator;
 
+import cn.elytra.mod.gtmqol.config.QualityConfig;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -16,8 +17,6 @@ import java.util.Collection;
 public class DataStickItemDecorator extends CornerItemDecorator {
 
     public static final DataStickItemDecorator INSTANCE = new DataStickItemDecorator();
-
-    public boolean enabled = true;
 
     @Override
     protected @Nullable ItemStack getItemToRender(ItemStack containerItem) {
@@ -39,7 +38,7 @@ public class DataStickItemDecorator extends CornerItemDecorator {
 
     @Override
     protected boolean shouldRender(boolean shiftKeyPressed) {
-        return !shiftKeyPressed;
+        return QualityConfig.get().itemDecorator.recipeDataContent.renderRecipeDataAtCorner && !shiftKeyPressed;
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

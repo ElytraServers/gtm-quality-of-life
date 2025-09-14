@@ -1,5 +1,6 @@
 package cn.elytra.mod.gtmqol.client.item_decorator;
 
+import cn.elytra.mod.gtmqol.config.QualityConfig;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -20,7 +21,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Range;
 import org.slf4j.Marker;
 
 public class FluidHandlerContentItemDecorator implements IItemDecorator {
@@ -35,22 +35,9 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
     private static final float[][] FLUID_ICON_OFFSETS = { { 8, 8 }, { 0, 8 }, { 8, 0 }, { 0, 0 } };
 
-    public boolean enabled = true;
-
-    /**
-     * The count of tanks in the ItemStack to be rendered, maximum at 4.
-     */
-    @Range(from = 0, to = 4)
-    public int maxTankCountToRender = 1;
-
-    /**
-     * If {@code true}, the fluid icon is rendered on top of the item.
-     */
-    public boolean renderOnTopOfItem = true;
-
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack itemStack, int x, int y) {
-        if (!enabled) {
+        if (!QualityConfig.get().itemDecorator.tankContent.renderContentAtCorner) {
             return false;
         }
 
@@ -66,7 +53,7 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
         // disable the depth test, so that the fluid icon is rendered on top of the item.
         // otherwise, it's on the background, and may be covered by the item icon.
-        if (renderOnTopOfItem) {
+        if (isRenderOnTopOfItem()) {
             RenderSystem.disableDepthTest();
         }
 
@@ -74,7 +61,7 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
         // taking 1/4 slot area.
         // it will iterate tanks in the item, util either the tanks are all iterated or reached the limit of rendering
         // count, which is 1 by default.
-        for (int index = 0, count = 0; index < handler.getTanks() && count < maxTankCountToRender; index++) {
+        for (int index = 0, count = 0; index < handler.getTanks() && count < getMaxTankCountToRender(); index++) {
             FluidStack fluidInTank = getFluidInTankCatching(handler, index);
             if (!fluidInTank.isEmpty()) {
                 DrawerHelper.drawFluidForGui(
@@ -98,6 +85,20 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
             // ignored, we don't truly care if it's malformed data. A bug of GTM.
             return FluidStack.EMPTY;
         }
+    }
+
+    /**
+     * The count of tanks in the ItemStack to be rendered, maximum at 4.
+     */
+    protected int getMaxTankCountToRender() {
+        return QualityConfig.get().itemDecorator.tankContent.renderContentAtCornerMaxType;
+    }
+
+    /**
+     * If {@code true}, the fluid icon is rendered on top of the item.
+     */
+    protected boolean isRenderOnTopOfItem() {
+        return QualityConfig.get().itemDecorator.tankContent.renderContentAtCornerOnTopOfItem;
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

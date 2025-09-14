@@ -1,0 +1,13 @@
+{
+  "config.gtmqol.option.itemDecorator": "ItemDecorator",
+  "config.gtmqol.option.recipeDataContent": "RecipeDataContent",
+  "config.gtmqol.option.renderContentAtCorner": "RenderContentAtCorner",
+  "config.gtmqol.option.renderContentAtCornerMaxType": "RenderContentAtCornerMaxType",
+  "config.gtmqol.option.renderContentAtCornerOnTopOfItem": "RenderContentAtCornerOnTopOfItem",
+  "config.gtmqol.option.renderContentDurabilityBar": "RenderContentDurabilityBar",
+  "config.gtmqol.option.renderContentDurabilityBarAtEmpty": "RenderContentDurabilityBarAtEmpty",
+  "config.gtmqol.option.renderContentDurabilityBarAtFull": "RenderContentDurabilityBarAtFull",
+  "config.gtmqol.option.renderContentDurabilityBarMultiTankStrategy": "RenderContentDurabilityBarMultiTankStrategy",
+  "config.gtmqol.option.renderRecipeDataAtCorner": "RenderRecipeDataAtCorner",
+  "config.gtmqol.option.tankContent": "TankContent"
+}

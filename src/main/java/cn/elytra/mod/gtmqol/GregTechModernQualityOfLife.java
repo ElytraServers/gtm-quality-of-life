@@ -1,9 +1,10 @@
 package cn.elytra.mod.gtmqol;
 
 import cn.elytra.mod.gtmqol.config.QualityConfig;
-import net.minecraftforge.fml.ModLoadingContext;
+import dev.toma.configuration.Configuration;
+import dev.toma.configuration.config.ConfigHolder;
+import dev.toma.configuration.config.format.ConfigFormats;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,10 +15,15 @@ public class GregTechModernQualityOfLife {
 
     public static final Logger LOG = LoggerFactory.getLogger(MOD_ID);
 
+    public static QualityConfig config;
+    // save this for config key generation
+    public static ConfigHolder<QualityConfig> configHolder;
+
     public GregTechModernQualityOfLife() {
         LOG.info("Quality!");
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, QualityConfig.SPEC);
+        configHolder = Configuration.registerConfig(QualityConfig.class, ConfigFormats.JSON);
+        config = configHolder.getConfigInstance();
     }
 
 }

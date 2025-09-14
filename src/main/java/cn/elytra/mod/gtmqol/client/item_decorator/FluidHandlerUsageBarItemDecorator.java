@@ -1,5 +1,6 @@
 package cn.elytra.mod.gtmqol.client.item_decorator;
 
+import cn.elytra.mod.gtmqol.config.QualityConfig;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
@@ -37,14 +38,6 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
 
     public static FluidHandlerUsageBarItemDecorator INSTANCE = new FluidHandlerUsageBarItemDecorator();
 
-    public MultiTankStrategy multiTankStrategy = MultiTankStrategy.COUNT_TOTAL;
-
-    public boolean enabled = true;
-    /// when `true`, the usage bar is also rendered when the tank is **empty**.
-    public boolean showEmptyBar = false;
-    /// when `true`, the usage bar is also rendered when the tank is **full**.
-    public boolean showFullBar = false;
-
     /// @return the [IFluidHandlerItem] instance related to the given stack
     protected @Nullable IFluidHandlerItem getFluidHandlerItem(ItemStack itemStack) {
         return QualityUtils.getLazyOptionalNullable(itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM));
@@ -55,7 +48,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
         return switch (item.getTanks()) {
             case 0 -> 0;
             case 1 -> item.getFluidInTank(0).getAmount();
-            default -> switch (multiTankStrategy) {
+            default -> switch (getMultiTankStrategy()) {
                 case FIRST_ONLY -> item.getFluidInTank(0).getAmount();
                 case COUNT_TOTAL -> IntStream.range(0, item.getTanks())
                     .mapToObj(item::getFluidInTank)
@@ -70,7 +63,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
         return switch (item.getTanks()) {
             case 0 -> 0;
             case 1 -> item.getTankCapacity(0);
-            default -> switch (multiTankStrategy) {
+            default -> switch (getMultiTankStrategy()) {
                 case FIRST_ONLY -> item.getTankCapacity(0);
                 case COUNT_TOTAL -> IntStream.range(0, item.getTanks()).map(item::getTankCapacity).sum();
             };
@@ -107,12 +100,12 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
 
     @Override
     public boolean showEmptyBar(ItemStack itemStack) {
-        return showEmptyBar;
+        return QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarAtEmpty;
     }
 
     @Override
     public boolean showFullBar(ItemStack itemStack) {
-        return showFullBar;
+        return QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarAtFull;
     }
 
     @Override
@@ -134,8 +127,12 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
 
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack stack, int xOffset, int yOffset) {
-        if (!enabled) return false;
+        if (!QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBar) return false;
         return IDurabilityBar.super.render(guiGraphics, font, stack, xOffset, yOffset);
+    }
+
+    protected MultiTankStrategy getMultiTankStrategy() {
+        return QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarMultiTankStrategy;
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
