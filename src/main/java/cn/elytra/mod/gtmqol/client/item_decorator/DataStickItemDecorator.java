@@ -42,7 +42,7 @@ public class DataStickItemDecorator extends CornerItemDecorator {
     }
 
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    static class Register {
+    static class RegisterDataStick {
 
         @SubscribeEvent
         static void registerItemDecorator(RegisterItemDecorationsEvent event) {

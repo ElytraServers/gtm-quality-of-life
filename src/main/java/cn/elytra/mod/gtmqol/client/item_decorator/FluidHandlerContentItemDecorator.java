@@ -118,7 +118,7 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
             for (MachineDefinition drumDefinition : list) {
                 MetaMachineItem item = drumDefinition.getItem();
                 event.register(item, FluidHandlerContentItemDecorator.INSTANCE);
-                QualityUtils.LOG.info(M, "Registered FluidHandlerItemDecorator {}", item);
+                QualityUtils.LOG.info(M, "Registering {}", item);
             }
         }
 
