@@ -4,7 +4,6 @@ import cn.elytra.mod.gtmqol.GregTechModernQualityOfLife;
 import cn.elytra.mod.gtmqol.client.item_decorator.FluidHandlerUsageBarItemDecorator;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
-import dev.toma.configuration.config.UpdateRestrictions;
 
 @Config(id = GregTechModernQualityOfLife.MOD_ID)
 public class QualityConfig {
@@ -17,7 +16,6 @@ public class QualityConfig {
             public boolean renderContentAtCorner = false;
             @Configurable
             @Configurable.Range(min = 1, max = 4)
-            @Configurable.Gui.Slider
             public int renderContentAtCornerMaxType = 1;
             @Configurable
             public boolean renderContentAtCornerOnTopOfItem = true;
@@ -30,7 +28,6 @@ public class QualityConfig {
             @Configurable
             public FluidHandlerUsageBarItemDecorator.MultiTankStrategy renderContentDurabilityBarMultiTankStrategy = FluidHandlerUsageBarItemDecorator.MultiTankStrategy.COUNT_TOTAL;
             @Configurable
-            @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
             public String[] renderContentDurabilityBarForItems = { "gtceu:steel_fluid_cell",
                 "gtceu:aluminium_fluid_cell", "gtceu:stainless_steel_fluid_cell", "gtceu:titanium_fluid_cell",
                 "gtceu:tungsten_steel_fluid_cell", "gtceu:glass_vial", };

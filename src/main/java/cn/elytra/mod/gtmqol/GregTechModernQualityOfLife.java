@@ -22,7 +22,7 @@ public class GregTechModernQualityOfLife {
     public GregTechModernQualityOfLife() {
         LOG.info("Quality!");
 
-        configHolder = Configuration.registerConfig(QualityConfig.class, ConfigFormats.JSON);
+        configHolder = Configuration.registerConfig(QualityConfig.class, ConfigFormats.json());
         config = configHolder.getConfigInstance();
     }
 

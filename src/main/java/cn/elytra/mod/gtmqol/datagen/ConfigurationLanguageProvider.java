@@ -23,7 +23,6 @@ public class ConfigurationLanguageProvider extends LanguageProvider {
         super(output, modid, locale);
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     @Override
     protected void addTranslations() {
         iterate(GregTechModernQualityOfLife.configHolder.getValueMap(), new HashSet<>());
@@ -36,7 +35,7 @@ public class ConfigurationLanguageProvider extends LanguageProvider {
             if (addedKeys.add(langKey)) {
                 add(langKey, text);
             } else {
-                LOG.warn("Duplicated language key '{}' is found for {}", langKey, configValue.getPath());
+                LOG.warn("Duplicated language key '{}' is found for {}", langKey, configValue.getId());
             }
 
             if(configValue instanceof ObjectValue objectValue) {
