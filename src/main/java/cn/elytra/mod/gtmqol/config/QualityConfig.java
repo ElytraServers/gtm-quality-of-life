@@ -31,14 +31,9 @@ public class QualityConfig {
             public FluidHandlerUsageBarItemDecorator.MultiTankStrategy renderContentDurabilityBarMultiTankStrategy = FluidHandlerUsageBarItemDecorator.MultiTankStrategy.COUNT_TOTAL;
             @Configurable
             @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
-            public String[] renderContentDurabilityBarForItems = {
-                "gtceu:steel_fluid_cell",
-                "gtceu:aluminium_fluid_cell",
-                "gtceu:stainless_steel_fluid_cell",
-                "gtceu:titanium_fluid_cell",
-                "gtceu:tungsten_steel_fluid_cell",
-                "gtceu:glass_vial",
-            };
+            public String[] renderContentDurabilityBarForItems = { "gtceu:steel_fluid_cell",
+                "gtceu:aluminium_fluid_cell", "gtceu:stainless_steel_fluid_cell", "gtceu:titanium_fluid_cell",
+                "gtceu:tungsten_steel_fluid_cell", "gtceu:glass_vial", };
         }
 
         public static class RecipeDataContent {
@@ -47,10 +42,22 @@ public class QualityConfig {
             public boolean renderRecipeDataAtCorner = true;
         }
 
+        public static class WaferRecipeLens {
+
+            @Configurable
+            public boolean renderWaferRecipeLens = true;
+            @Configurable
+            public String[] renderWaferRecipeLensExtraLens = {};
+            @Configurable
+            public String[] renderWaferRecipeLensExtraWafers = {};
+        }
+
         @Configurable
         public TankContent tankContent = new TankContent();
         @Configurable
         public RecipeDataContent recipeDataContent = new RecipeDataContent();
+        @Configurable
+        public WaferRecipeLens waferRecipeLens = new WaferRecipeLens();
     }
 
     @Configurable

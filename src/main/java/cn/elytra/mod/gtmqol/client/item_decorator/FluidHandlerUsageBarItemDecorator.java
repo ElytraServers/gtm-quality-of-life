@@ -25,7 +25,6 @@ import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Marker;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemDecorator {
@@ -155,9 +154,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
             // register from configuration
             registerImpl(
                 event,
-                Arrays.stream(QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarForItems)
-                    .map(QualityUtils::getItemByKey)
-                    .toList());
+                QualityUtils.getItemsByKeys(QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarForItems));
         }
 
         private static void registerImpl(RegisterItemDecorationsEvent event, Iterable<? extends ItemLike> list) {
