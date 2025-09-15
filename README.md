@@ -24,3 +24,9 @@ It renders the output item of including recipe data for Data Sticks, Data Orbs a
 
 It renders a durability bar to show the corresponding fluid in color. The length of the bar is calculated by the taken
 amount of the tank.
+
+### Wafer Recipe Lens Inspector
+
+![](docs/wafer_recipe_inspect.png)
+
+It renders a corresponding *Glass Lens* used in the laser engrave recipe of the wafer.

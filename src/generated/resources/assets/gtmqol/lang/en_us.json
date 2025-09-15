@@ -7,7 +7,12 @@
   "config.gtmqol.option.renderContentDurabilityBar": "RenderContentDurabilityBar",
   "config.gtmqol.option.renderContentDurabilityBarAtEmpty": "RenderContentDurabilityBarAtEmpty",
   "config.gtmqol.option.renderContentDurabilityBarAtFull": "RenderContentDurabilityBarAtFull",
+  "config.gtmqol.option.renderContentDurabilityBarForItems": "RenderContentDurabilityBarForItems",
   "config.gtmqol.option.renderContentDurabilityBarMultiTankStrategy": "RenderContentDurabilityBarMultiTankStrategy",
   "config.gtmqol.option.renderRecipeDataAtCorner": "RenderRecipeDataAtCorner",
-  "config.gtmqol.option.tankContent": "TankContent"
+  "config.gtmqol.option.renderWaferRecipeLens": "RenderWaferRecipeLens",
+  "config.gtmqol.option.renderWaferRecipeLensExtraLens": "RenderWaferRecipeLensExtraLens",
+  "config.gtmqol.option.renderWaferRecipeLensExtraWafers": "RenderWaferRecipeLensExtraWafers",
+  "config.gtmqol.option.tankContent": "TankContent",
+  "config.gtmqol.option.waferRecipeLens": "WaferRecipeLens"
 }
