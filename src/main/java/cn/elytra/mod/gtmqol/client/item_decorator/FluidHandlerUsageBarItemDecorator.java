@@ -1,15 +1,16 @@
 package cn.elytra.mod.gtmqol.client.item_decorator;
 
+import cn.elytra.mod.gtmqol.client.utils.RenderUtils;
 import cn.elytra.mod.gtmqol.config.QualityConfig;
+import cn.elytra.mod.gtmqol.mixins.ToolChargeBarRendererAccessor;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
-import com.gregtechceu.gtceu.common.machine.storage.QuantumTankMachine;
 import com.gregtechceu.gtceu.utils.GradientUtil;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
-import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -18,13 +19,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.IItemDecorator;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Marker;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemDecorator {
@@ -40,7 +45,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
 
     /// @return the [IFluidHandlerItem] instance related to the given stack
     protected @Nullable IFluidHandlerItem getFluidHandlerItem(ItemStack itemStack) {
-        return QualityUtils.getLazyOptionalNullable(itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM));
+        return QualityUtils.getLazyOptionalNullable(RenderUtils.getItemCapabilityForRender(itemStack, ForgeCapabilities.FLUID_HANDLER_ITEM));
     }
 
     /// @return the amount of existing fluids in the tank, regarding the strategy if there's more than one tank.
@@ -109,7 +114,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
     }
 
     @Override
-    public @Nullable IntIntPair getDurabilityColorsForDisplay(ItemStack itemStack) {
+    public @Nullable Pair<Integer, Integer> getDurabilityColorsForDisplay(ItemStack itemStack) {
         IFluidHandlerItem item = getFluidHandlerItem(itemStack);
         if (item == null) return null;
 
@@ -128,7 +133,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack stack, int xOffset, int yOffset) {
         if (!QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBar) return false;
-        return IDurabilityBar.super.render(guiGraphics, font, stack, xOffset, yOffset);
+        return ToolChargeBarRendererAccessor.renderDurabilityBar(guiGraphics, stack, this, xOffset, yOffset);
     }
 
     protected MultiTankStrategy getMultiTankStrategy() {
@@ -147,9 +152,8 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
                 event,
                 GTMachineUtils.DRUM_CAPACITY.keySet().stream().map(MachineDefinition::getItem).toList());
             // super tanks, quantum tanks
-            registerImpl(
-                event,
-                QuantumTankMachine.TANK_CAPACITY.keySet().stream().map(MachineDefinition::getItem).toList());
+            registerImpl(event, Arrays.stream(GTMachines.SUPER_TANK).filter(Objects::nonNull).map(MachineDefinition::getItem).toList());
+            registerImpl(event, Arrays.stream(GTMachines.QUANTUM_TANK).filter(Objects::nonNull).map(MachineDefinition::getItem).toList());
 
             // register from configuration
             registerImpl(

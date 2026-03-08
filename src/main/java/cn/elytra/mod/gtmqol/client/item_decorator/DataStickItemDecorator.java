@@ -3,8 +3,10 @@ package cn.elytra.mod.gtmqol.client.item_decorator;
 import cn.elytra.mod.gtmqol.config.QualityConfig;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.utils.ResearchManager;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
@@ -20,10 +22,10 @@ public class DataStickItemDecorator extends CornerItemDecorator {
 
     @Override
     protected @Nullable ItemStack getItemToRender(ItemStack containerItem) {
-        ResearchManager.ResearchItem researchItem = ResearchManager.readResearchId(containerItem);
-        if (researchItem == null) return null;
+        Pair<GTRecipeType, String> pair = ResearchManager.readResearchId(containerItem);
+        if (pair == null) return null;
 
-        Collection<GTRecipe> recipes = researchItem.recipeType().getDataStickEntry(researchItem.researchId());
+        Collection<GTRecipe> recipes = pair.getFirst().getDataStickEntry(pair.getSecond());
         if (recipes == null || recipes.isEmpty()) return null;
 
         GTRecipe recipe = recipes.iterator().next();

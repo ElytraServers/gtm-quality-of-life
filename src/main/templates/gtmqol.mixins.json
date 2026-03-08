@@ -5,7 +5,8 @@
   "plugin": "cn.elytra.mod.gtmqol.mixin_config.GTMQOLMixinConfig",
   "mixins": [
     "GT_DrumOutput",
+    "GT_QuantumTankCapacity",
     "GT_TankPickup",
-    "fix.GT_QuantumFluidHandlerFix"
+    "ToolChargeBarRendererAccessor"
   ]
 }

@@ -13,7 +13,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
@@ -80,4 +83,12 @@ public class RenderUtils {
         pose.popPose();
     }
 
+    /// Get the given capability instance for the item, for the client-only operations like rendering.
+    public static <T> @NotNull LazyOptional<T> getItemCapabilityForRender(ItemStack itemStack, Capability<T> capability) {
+        LazyOptional<T> commonCaps = itemStack.getCapability(capability);
+        if (commonCaps.isPresent()) return commonCaps;
+        LazyOptional<T> clientCaps = ClientOnlyCapability.getCapability(capability, itemStack);
+        if (clientCaps.isPresent()) return clientCaps;
+        return LazyOptional.empty();
+    }
 }
