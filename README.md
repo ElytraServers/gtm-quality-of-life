@@ -2,6 +2,9 @@
 
 To help you improve your QoL when playing GregTech Modern.
 
+NOTE: this branch is compatible for Star Technology only, because it uses a very ancient GTM, and they plan to fork the
+whole GTM.
+
 ## Features
 
 If you're seeking some unique features to help improve this mod, feel free to open an issue!
