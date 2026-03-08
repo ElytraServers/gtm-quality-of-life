@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev.legacyforge' version '2.0.91'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.140'
 
     id 'com.palantir.git-version' version '4.0.0'
 }
@@ -28,9 +28,9 @@ try {
 
 repositories {
     mavenLocal()
-    maven {
-        url "https://jitpack.io"
-    }
+//    maven {
+//        url "https://jitpack.io"
+//    }
     maven {
         url "https://maven.gtceu.com"
     }
@@ -205,7 +205,7 @@ dependencies {
 
     compileOnly("org.jetbrains:annotations:26.0.2")
 
-    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:7.1.4") {
+    modImplementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:7.5.2") {
         // because we have a un-remapped-sources version below! :D
         exclude module: "com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}"
     }
