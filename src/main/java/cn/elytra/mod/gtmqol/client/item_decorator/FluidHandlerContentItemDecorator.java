@@ -1,11 +1,8 @@
 package cn.elytra.mod.gtmqol.client.item_decorator;
 
 import cn.elytra.mod.gtmqol.config.QualityConfig;
+import cn.elytra.mod.gtmqol.util.QualityStringUtils;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
-import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
-import com.gregtechceu.gtceu.common.machine.storage.QuantumTankMachine;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -22,6 +19,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Marker;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
@@ -108,20 +108,16 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
         @SubscribeEvent
         public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-            // drums
-            register(event, GTMachineUtils.DRUM_CAPACITY.keySet());
-            // super tanks, quantum tanks
-            register(event, QuantumTankMachine.TANK_CAPACITY.keySet());
+            Arrays.stream(QualityConfig.get().itemDecorator.tankContent.tankContainers)
+                .flatMap(QualityStringUtils::expandToStream)
+                .map(QualityUtils::getItemByKey)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(item -> {
+                    event.register(item, FluidHandlerContentItemDecorator.INSTANCE);
+                    QualityUtils.LOG.info(M, "Registered {}", item);
+                });
         }
-
-        private static void register(RegisterItemDecorationsEvent event, Iterable<MachineDefinition> list) {
-            for (MachineDefinition drumDefinition : list) {
-                MetaMachineItem item = drumDefinition.getItem();
-                event.register(item, FluidHandlerContentItemDecorator.INSTANCE);
-                QualityUtils.LOG.info(M, "Registering {}", item);
-            }
-        }
-
     }
 
 }

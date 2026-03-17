@@ -28,15 +28,25 @@ public class QualityConfig {
             @Configurable
             public FluidHandlerUsageBarItemDecorator.MultiTankStrategy renderContentDurabilityBarMultiTankStrategy = FluidHandlerUsageBarItemDecorator.MultiTankStrategy.COUNT_TOTAL;
             @Configurable
-            public String[] renderContentDurabilityBarForItems = {"gtceu:steel_fluid_cell",
-                "gtceu:aluminium_fluid_cell", "gtceu:stainless_steel_fluid_cell", "gtceu:titanium_fluid_cell",
-                "gtceu:tungsten_steel_fluid_cell", "gtceu:glass_vial",};
+            @Configurable.Comment("(Brace Expansion supported)")
+            public String[] tankContainers = {
+                // @formatter:off
+                "gtceu:{steel,aluminium,stainless_steel,titanium,tungsten_steel}_fluid_cell",
+                "gtceu:glass_vial",
+                "gtceu:{lv,mv,hv,ev}_super_tank",
+                "gtceu:{iv,luv,zpm,uv,uhv,uev,uiv,uxv,opv}_quantum_tank",
+                // @formatter:on
+            };
         }
 
         public static class RecipeDataContent {
 
             @Configurable
             public boolean renderRecipeDataAtCorner = true;
+            @Configurable
+            public String[] recipeDataContainers = {
+                "gtceu:data_{stick,orb,module}"
+            };
         }
 
         public static class WaferRecipeLens {
@@ -44,9 +54,11 @@ public class QualityConfig {
             @Configurable
             public boolean renderWaferRecipeLens = true;
             @Configurable
-            public String[] renderWaferRecipeLensExtraLens = {};
+            @Configurable.Comment("(Brace Expansion supported)")
+            public String[] waferRecipeLensExtraLensItems = {};
             @Configurable
-            public String[] renderWaferRecipeLensExtraWafers = {};
+            @Configurable.Comment("(Brace Expansion supported)")
+            public String[] waferRecipeLensExtraWaferItems = {};
         }
 
         @Configurable
