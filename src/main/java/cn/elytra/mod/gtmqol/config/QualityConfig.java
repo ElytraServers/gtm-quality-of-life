@@ -27,10 +27,6 @@ public class QualityConfig {
             public boolean renderContentDurabilityBarAtFull = true;
             @Configurable
             public FluidHandlerUsageBarItemDecorator.MultiTankStrategy renderContentDurabilityBarMultiTankStrategy = FluidHandlerUsageBarItemDecorator.MultiTankStrategy.COUNT_TOTAL;
-            @Configurable
-            public String[] renderContentDurabilityBarForItems = {"gtceu:steel_fluid_cell",
-                "gtceu:aluminium_fluid_cell", "gtceu:stainless_steel_fluid_cell", "gtceu:titanium_fluid_cell",
-                "gtceu:tungsten_steel_fluid_cell", "gtceu:glass_vial",};
         }
 
         public static class RecipeDataContent {
