@@ -22,6 +22,7 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;

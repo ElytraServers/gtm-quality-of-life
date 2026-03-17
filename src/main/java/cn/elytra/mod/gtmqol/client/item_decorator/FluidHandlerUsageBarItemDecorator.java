@@ -2,6 +2,7 @@ package cn.elytra.mod.gtmqol.client.item_decorator;
 
 import cn.elytra.mod.gtmqol.client.utils.RenderUtils;
 import cn.elytra.mod.gtmqol.config.QualityConfig;
+import cn.elytra.mod.gtmqol.util.QualityStringUtils;
 import cn.elytra.mod.gtmqol.mixins.ToolChargeBarRendererAccessor;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
@@ -10,7 +11,6 @@ import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.IItemDecorator;
@@ -20,10 +20,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Marker;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemDecorator {
@@ -137,13 +139,20 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     static class UsageBarRegister {
 
+        private static final Marker M = QualityUtils.getMarkerForClass(UsageBarRegister.class);
+
         @SubscribeEvent
         static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-            for (Item item : ForgeRegistries.ITEMS) {
-                if (new ItemStack(item).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
-                    event.register(item, INSTANCE);
-                }
-            }
+            Arrays.stream(QualityConfig.get().itemDecorator.tankContent.tankContainers)
+                .flatMap(QualityStringUtils::expandToStream)
+                .map(QualityUtils::getItemByKey)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(item -> {
+                    event.register(item, FluidHandlerUsageBarItemDecorator.INSTANCE);
+                    QualityUtils.LOG.info(M, "Registered {}", item);
+                });
         }
+
     }
 }

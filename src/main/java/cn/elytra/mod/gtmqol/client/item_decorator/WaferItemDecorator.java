@@ -4,6 +4,7 @@ import cn.elytra.mod.gtmqol.GregTechModernQualityOfLife;
 import cn.elytra.mod.gtmqol.config.QualityConfig;
 import cn.elytra.mod.gtmqol.util.CleanableMemoizedFunction;
 import cn.elytra.mod.gtmqol.util.MemoizeUtils;
+import cn.elytra.mod.gtmqol.util.QualityStringUtils;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -17,6 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Marker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -102,6 +104,8 @@ public class WaferItemDecorator extends CornerItemDecorator {
     @Mod.EventBusSubscriber(modid = GregTechModernQualityOfLife.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     static class WaferDecoratorRegister {
 
+        private static final Marker M = QualityUtils.getMarkerForClass(WaferDecoratorRegister.class);
+
         @SubscribeEvent
         static void onRegisterDecorator(RegisterItemDecorationsEvent event) {
             event.register(GTItems.CENTRAL_PROCESSING_UNIT_WAFER, WaferItemDecorator.INSTANCE);
@@ -122,14 +126,24 @@ public class WaferItemDecorator extends CornerItemDecorator {
             event.register(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER, WaferItemDecorator.INSTANCE);
 
             QualityConfig.ItemDecorator.WaferRecipeLens config = QualityConfig.get().itemDecorator.waferRecipeLens;
-            Arrays.stream(config.renderWaferRecipeLensExtraWafers)
+            Arrays.stream(config.waferRecipeLensExtraLensItems)
+                .flatMap(QualityStringUtils::expandToStream)
                 .map(QualityUtils::getItemByKey)
                 .filter(Optional::isPresent)
-                .forEach(i -> event.register(i.get(), WaferItemDecorator.INSTANCE));
-            Arrays.stream(config.renderWaferRecipeLensExtraLens)
+                .map(Optional::get)
+                .forEach(item -> {
+                    EXTRA_LENSES.add(item);
+                    QualityUtils.LOG.info(M, "Registered Extra Lens {}", item);
+                });
+            Arrays.stream(config.waferRecipeLensExtraWaferItems)
+                .flatMap(QualityStringUtils::expandToStream)
                 .map(QualityUtils::getItemByKey)
                 .filter(Optional::isPresent)
-                .forEach(i -> EXTRA_LENSES.add(i.get()));
+                .map(Optional::get)
+                .forEach(item -> {
+                    event.register(item, WaferItemDecorator.INSTANCE);
+                    QualityUtils.LOG.info(M, "Registered Wafer Item {}", item);
+                });
         }
 
     }
