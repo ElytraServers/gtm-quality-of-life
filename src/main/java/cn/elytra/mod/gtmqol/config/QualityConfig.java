@@ -36,6 +36,9 @@ public class QualityConfig {
                 "gtceu:{lv,mv,hv,ev}_super_tank",
                 "gtceu:{iv,luv,zpm,uv,uhv,uev,uiv,uxv,opv}_quantum_tank",
                 "gtceu:{wood,bronze,steel,aluminium,stainless_steel,gold,titanium,tungsten_steel}_drum",
+
+                // StarT Core
+                "start_core:{enriched_naquadah,neutronium}_drum",
                 // @formatter:on
             };
         }
@@ -47,7 +50,13 @@ public class QualityConfig {
             @Configurable
             @Configurable.Comment("(Brace Expansion supported)")
             public String[] recipeDataContainers = {
-                "gtceu:data_{stick,orb,module}"
+                // @formatter:off
+                "gtceu:data_{stick,orb,module}",
+
+                // StarT Core
+                "start_core:data_dna_disk",
+                "start_core:component_data_core",
+                // @formatter:on
             };
         }
 
@@ -57,10 +66,25 @@ public class QualityConfig {
             public boolean renderWaferRecipeLens = true;
             @Configurable
             @Configurable.Comment("(Brace Expansion supported)")
-            public String[] waferRecipeLensExtraLensItems = {};
+            public String[] waferRecipeLensExtraLensItems = {
+                // @formatter:off
+                // GTCEu
+                "gtceu:fluix_lens",
+                "gtceu:echo_shard_lens",
+                // @formatter:on
+            };
             @Configurable
             @Configurable.Comment("(Brace Expansion supported)")
-            public String[] waferRecipeLensExtraWaferItems = {};
+            public String[] waferRecipeLensExtraWaferItems = {
+                // @formatter:off
+                // StarT KJS
+                "kubejs:ae2_soc_wafer",
+                "kubejs:qram_wafer",
+                "kubejs:uepic_wafer",
+                "kubejs:draco_advanced_soc_wafer",
+                "kubejs:uipic_wafer",
+                // @formatter:on
+            };
         }
 
         @Configurable
