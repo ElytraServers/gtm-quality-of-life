@@ -40,15 +40,16 @@ jobs:
         uses: Kira-NT/mc-publish@v3.3
         continue-on-error: true
         with:
-          # modrinth-id: UTFQ57AN
-          # modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          # curseforge-id: 1282484
-          # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          modrinth-id: AjKh7xmz
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          curseforge-id: 1481077
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           github-generate-changelog: true
           github-prerelease: ${{ env.SNAPSHOT }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           game-versions: |
-            1.21.1
-          # dependencies: |
-          #  terrafirmacraft{modrinth:JaCEZUhg}{curseforge:302973}
+            1.20.1
+          dependencies: |
+            gregtechceu-modern{curseforge:890405}{modrinth:7tG215v7}
+            configuration{curseforge:444699}{modrinth:3WjjSM5O}
           fail-mode: skip
