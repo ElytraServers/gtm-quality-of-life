@@ -31,7 +31,7 @@ public class QualityConfig {
             @Configurable.Comment("(Brace Expansion supported)")
             public String[] tankContainers = {
                 // @formatter:off
-                "gtceu:{steel,aluminium,stainless_steel,titanium,tungsten_steel}_fluid_cell",
+                "gtceu:{steel,aluminium,stainless_steel,titanium,tungstensteel}_fluid_cell",
                 "gtceu:glass_vial",
                 "gtceu:{lv,mv,hv,ev}_super_tank",
                 "gtceu:{iv,luv,zpm,uv,uhv,uev,uiv,uxv,opv}_quantum_tank",
@@ -39,6 +39,7 @@ public class QualityConfig {
 
                 // StarT Core
                 "start_core:{enriched_naquadah,neutronium}_drum",
+                "start_core:{enriched_naquadah,neutronium}_fluid_cell",
                 // @formatter:on
             };
         }
