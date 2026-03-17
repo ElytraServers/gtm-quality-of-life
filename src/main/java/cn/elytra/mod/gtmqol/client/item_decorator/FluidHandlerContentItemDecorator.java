@@ -2,12 +2,15 @@ package cn.elytra.mod.gtmqol.client.item_decorator;
 
 import cn.elytra.mod.gtmqol.config.QualityConfig;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.gregtechceu.gtceu.common.machine.storage.QuantumTankMachine;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.IItemDecorator;
@@ -18,7 +21,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.slf4j.Marker;
 
 public class FluidHandlerContentItemDecorator implements IItemDecorator {
 
@@ -101,13 +104,24 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     static class ContentCornerRegister {
 
+        private static final Marker M = QualityUtils.getMarkerForClass(ContentCornerRegister.class);
+
         @SubscribeEvent
         public static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-            for (Item item : ForgeRegistries.ITEMS) {
-                if (new ItemStack(item).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
-                    event.register(item, INSTANCE);
-                }
+            // drums
+            register(event, GTMachineUtils.DRUM_CAPACITY.keySet());
+            // super tanks, quantum tanks
+            register(event, QuantumTankMachine.TANK_CAPACITY.keySet());
+        }
+
+        private static void register(RegisterItemDecorationsEvent event, Iterable<MachineDefinition> list) {
+            for (MachineDefinition drumDefinition : list) {
+                MetaMachineItem item = drumDefinition.getItem();
+                event.register(item, FluidHandlerContentItemDecorator.INSTANCE);
+                QualityUtils.LOG.info(M, "Registering {}", item);
             }
         }
+
     }
+
 }
