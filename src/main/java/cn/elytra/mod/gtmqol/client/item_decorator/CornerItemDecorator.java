@@ -25,12 +25,12 @@ public abstract class CornerItemDecorator implements IItemDecorator {
             float widthScaled = width * scale;
             float heightScaled = height * scale;
             return switch (this) {
-                case TOP_LEFT -> new float[] { xBase, yBase, widthScaled, heightScaled };
-                case TOP_RIGHT -> new float[] { xBase + (width - (widthScaled)), yBase, widthScaled, heightScaled };
-                case BOTTOM_LEFT -> new float[] { xBase, yBase + (height - (heightScaled)), widthScaled, heightScaled };
+                case TOP_LEFT -> new float[]{xBase, yBase, widthScaled, heightScaled};
+                case TOP_RIGHT -> new float[]{xBase + (width - (widthScaled)), yBase, widthScaled, heightScaled};
+                case BOTTOM_LEFT -> new float[]{xBase, yBase + (height - (heightScaled)), widthScaled, heightScaled};
                 case BOTTOM_RIGHT ->
-                    new float[] { xBase + (width - (widthScaled)), yBase + (height - (heightScaled)), widthScaled,
-                        heightScaled };
+                    new float[]{xBase + (width - (widthScaled)), yBase + (height - (heightScaled)), widthScaled,
+                        heightScaled};
             };
         }
     }

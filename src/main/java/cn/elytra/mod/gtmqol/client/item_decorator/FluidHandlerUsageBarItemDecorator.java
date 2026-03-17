@@ -5,31 +5,25 @@ import cn.elytra.mod.gtmqol.config.QualityConfig;
 import cn.elytra.mod.gtmqol.mixins.ToolChargeBarRendererAccessor;
 import cn.elytra.mod.gtmqol.util.QualityUtils;
 import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.utils.GradientUtil;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.IItemDecorator;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Marker;
 
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemDecorator {
@@ -143,30 +137,13 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
     @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     static class UsageBarRegister {
 
-        private static final Marker M = QualityUtils.getMarkerForClass(UsageBarRegister.class);
-
         @SubscribeEvent
         static void registerItemDecorations(RegisterItemDecorationsEvent event) {
-            // drums
-            registerImpl(
-                event,
-                GTMachineUtils.DRUM_CAPACITY.keySet().stream().map(MachineDefinition::getItem).toList());
-            // super tanks, quantum tanks
-            registerImpl(event, Arrays.stream(GTMachines.SUPER_TANK).filter(Objects::nonNull).map(MachineDefinition::getItem).toList());
-            registerImpl(event, Arrays.stream(GTMachines.QUANTUM_TANK).filter(Objects::nonNull).map(MachineDefinition::getItem).toList());
-
-            // register from configuration
-            registerImpl(
-                event,
-                QualityUtils.getItemsByKeys(QualityConfig.get().itemDecorator.tankContent.renderContentDurabilityBarForItems));
+            for (Item item : ForgeRegistries.ITEMS) {
+                if (new ItemStack(item).getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()) {
+                    event.register(item, INSTANCE);
+                }
+            }
         }
-
-        private static void registerImpl(RegisterItemDecorationsEvent event, Iterable<? extends ItemLike> list) {
-            list.forEach(item -> {
-                event.register(item, FluidHandlerUsageBarItemDecorator.INSTANCE);
-                QualityUtils.LOG.info(M, "Registering {}", item);
-            });
-        }
-
     }
 }

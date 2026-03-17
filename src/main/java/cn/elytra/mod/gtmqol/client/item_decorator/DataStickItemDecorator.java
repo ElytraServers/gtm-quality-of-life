@@ -4,14 +4,15 @@ import cn.elytra.mod.gtmqol.config.QualityConfig;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.utils.ResearchManager;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -48,9 +49,11 @@ public class DataStickItemDecorator extends CornerItemDecorator {
 
         @SubscribeEvent
         static void registerItemDecorator(RegisterItemDecorationsEvent event) {
-            event.register(GTItems.TOOL_DATA_STICK, INSTANCE);
-            event.register(GTItems.TOOL_DATA_ORB, INSTANCE);
-            event.register(GTItems.TOOL_DATA_MODULE, INSTANCE);
+            for(Item item : ForgeRegistries.ITEMS) {
+                if (ResearchManager.isStackDataItem(new ItemStack(item), true)) {
+                    event.register(item, INSTANCE);
+                }
+            }
         }
 
     }
