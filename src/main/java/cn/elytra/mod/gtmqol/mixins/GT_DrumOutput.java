@@ -49,7 +49,8 @@ public abstract class GT_DrumOutput extends MetaMachine implements IAutoOutputFl
 
     @Override
     protected @NotNull InteractionResult onSoftMalletClick(@NotNull Player playerIn, @NotNull InteractionHand hand,
-        @NotNull Direction gridSide, @NotNull BlockHitResult hitResult) {
+                                                           @NotNull Direction gridSide,
+                                                           @NotNull BlockHitResult hitResult) {
         if (!isRemote()) {
             if (!playerIn.isShiftKeyDown()) {
                 setAllowInputFromOutputSideFluids(!isAllowInputFromOutputSideFluids());
@@ -65,9 +66,9 @@ public abstract class GT_DrumOutput extends MetaMachine implements IAutoOutputFl
 
     @Inject(method = "sideTips", at = @At("RETURN"), cancellable = true)
     private void gtmqol$softMalletSideTips(Player player, BlockPos pos, BlockState state, Set<GTToolType> toolTypes,
-        Direction side, CallbackInfoReturnable<ResourceTexture> cir) {
-        if(toolTypes.contains(GTToolType.SOFT_MALLET)) {
-            if(side == Direction.DOWN) {
+                                           Direction side, CallbackInfoReturnable<ResourceTexture> cir) {
+        if (toolTypes.contains(GTToolType.SOFT_MALLET)) {
+            if (side == Direction.DOWN) {
                 cir.setReturnValue(GuiTextures.TOOL_ALLOW_INPUT);
             }
         }

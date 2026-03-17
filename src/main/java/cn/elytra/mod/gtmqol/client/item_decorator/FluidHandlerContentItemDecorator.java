@@ -33,7 +33,7 @@ public class FluidHandlerContentItemDecorator implements IItemDecorator {
     private static final float FLUID_ICON_WIDTH = 8;
     private static final float FLUID_ICON_HEIGHT = 8;
 
-    private static final float[][] FLUID_ICON_OFFSETS = { { 8, 8 }, { 0, 8 }, { 8, 0 }, { 0, 0 } };
+    private static final float[][] FLUID_ICON_OFFSETS = {{8, 8}, {0, 8}, {8, 0}, {0, 0}};
 
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack itemStack, int x, int y) {

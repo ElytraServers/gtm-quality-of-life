@@ -23,7 +23,7 @@ public class RenderUtils {
     }
 
     public static void renderItem(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y, float width,
-        float height) {
+                                  float height) {
         renderItem(guiGraphics, null, null, itemStack, x, y, 0, width, height, 0);
     }
 
@@ -32,7 +32,8 @@ public class RenderUtils {
      * the width and height of the rendered item.
      */
     public static void renderItem(GuiGraphics guiGraphics, @Nullable LivingEntity livingEntity, @Nullable Level level,
-        ItemStack itemStack, int x, int y, int seed, float width, float height, int guiOffset) {
+                                  ItemStack itemStack, int x, int y, int seed, float width, float height,
+                                  int guiOffset) {
         if (itemStack.isEmpty()) return;
 
         Minecraft mc = Minecraft.getInstance();

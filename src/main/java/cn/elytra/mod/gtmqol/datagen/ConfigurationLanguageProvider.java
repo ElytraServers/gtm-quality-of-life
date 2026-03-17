@@ -38,7 +38,7 @@ public class ConfigurationLanguageProvider extends LanguageProvider {
                 LOG.warn("Duplicated language key '{}' is found for {}", langKey, configValue.getId());
             }
 
-            if(configValue instanceof ObjectValue objectValue) {
+            if (configValue instanceof ObjectValue objectValue) {
                 iterate(objectValue.get(), addedKeys);
             }
         });
