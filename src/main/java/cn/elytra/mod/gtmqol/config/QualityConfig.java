@@ -35,6 +35,7 @@ public class QualityConfig {
                 "gtceu:glass_vial",
                 "gtceu:{lv,mv,hv,ev}_super_tank",
                 "gtceu:{iv,luv,zpm,uv,uhv,uev,uiv,uxv,opv}_quantum_tank",
+                "gtceu:{wood,bronze,steel,aluminium,stainless_steel,gold,titanium,tungsten_steel}_drum",
                 // @formatter:on
             };
         }
@@ -44,6 +45,7 @@ public class QualityConfig {
             @Configurable
             public boolean renderRecipeDataAtCorner = true;
             @Configurable
+            @Configurable.Comment("(Brace Expansion supported)")
             public String[] recipeDataContainers = {
                 "gtceu:data_{stick,orb,module}"
             };

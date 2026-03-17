@@ -85,7 +85,8 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
         if (item != null) {
             int fluidAmount = getFluidAmount(item);
             int capacityAmount = getFluidCapacity(item);
-            return (float) fluidAmount / capacityAmount;
+            float v = (float) fluidAmount / capacityAmount;
+            return Float.isNaN(v) ? 0F : v;
         }
         return IDurabilityBar.super.getDurabilityForDisplay(stack);
     }
