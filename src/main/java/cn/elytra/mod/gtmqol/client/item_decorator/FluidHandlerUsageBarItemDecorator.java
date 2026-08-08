@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
 import com.gregtechceu.gtceu.utils.GradientUtil;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidHelperImpl;
+import it.unimi.dsi.fastutil.ints.IntIntPair;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Marker;
 
@@ -111,7 +111,7 @@ public class FluidHandlerUsageBarItemDecorator implements IDurabilityBar, IItemD
     }
 
     @Override
-    public @Nullable Pair<Integer, Integer> getDurabilityColorsForDisplay(ItemStack itemStack) {
+    public @Nullable IntIntPair getDurabilityColorsForDisplay(ItemStack itemStack) {
         IFluidHandlerItem item = getFluidHandlerItem(itemStack);
         if (item == null) return null;
 

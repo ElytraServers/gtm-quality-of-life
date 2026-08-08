@@ -27,10 +27,10 @@ public class DataStickItemDecorator extends CornerItemDecorator {
 
     @Override
     protected @Nullable ItemStack getItemToRender(ItemStack containerItem) {
-        Pair<GTRecipeType, String> pair = ResearchManager.readResearchId(containerItem);
-        if (pair == null) return null;
+        ResearchManager.ResearchItem researchItem = ResearchManager.readResearchId(containerItem);
+        if (researchItem == null) return null;
 
-        Collection<GTRecipe> recipes = pair.getFirst().getDataStickEntry(pair.getSecond());
+        Collection<GTRecipe> recipes = researchItem.recipeType().getDataStickEntry(researchItem.researchId());
         if (recipes == null || recipes.isEmpty()) return null;
 
         GTRecipe recipe = recipes.iterator().next();
